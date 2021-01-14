@@ -1,0 +1,72 @@
+.theme-#{$theme-name} {
+  .layout-container {
+    background: $container-bg;
+    .layout-aside {
+      .aside-logo {
+        background-color: $aside-logo-bgc;
+        color: $aside-logo-color;
+      }
+      .aside-menu {
+        background-color: $aside-menu-bgc;
+        .el-submenu__title,
+        .el-menu-item {
+          * {
+            color: $aside-menu-item-color;
+          }
+          &.is-active {
+            background-color: $aside-menu-item-bgc-active;
+            * {
+              color: $aside-menu-item-color-active;
+            }
+          }
+          &:hover {
+            background-color: $aside-menu-item-bgc-hover;
+            * {
+              color: $aside-menu-item-color-hover;
+            }
+          }
+        }
+      }
+    }
+
+    .layout-header {
+      background-color: $header-bgc;
+      color: $header-color;
+      .user-username {
+        color: $header-color;
+      }
+      .header-menu {
+        .el-menu-item {
+          * {
+            color: $header-menu-item-color;
+          }
+          &.is-active {
+            background-color: $header-menu-item-bgc-active;
+            * {
+              color: $header-menu-item-color-active;
+            }
+          }
+          &:hover {
+            background-color: $header-menu-item-bgc-hover;
+            * {
+              color: $header-menu-item-color-hover;
+            }
+          }
+        }
+      }
+      .header-right {
+        [class*="header-"] {
+          &:hover {
+            background-color: $header-right-item-bgc-hover;
+          }
+        }
+      }
+    }
+
+    .layout-main {
+      .main-tabs {
+        background-color: $main-tabs-bgc;
+      }
+    }
+  }
+}
