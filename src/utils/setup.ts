@@ -16,7 +16,7 @@ export const setupApp = (app: App<Element>) => {
 
   Object.keys(components).forEach((key) => {
     const component = components[key];
-    app.component(key, component);
+    app.component(component.name || "", component);
   });
 
   app.config.globalProperties.$util = util;

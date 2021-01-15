@@ -51,7 +51,6 @@ export default defineComponent({
       password: [{ required: true, message: "请输入密码" }],
       captcha: [{ required: true, message: "请输入验证码" }]
     };
-
     function refreshCaptcha() {
       form.value.captcha = "";
       getCaptcha().then((res) => {
@@ -65,7 +64,6 @@ export default defineComponent({
         .then(() => router.push((route.query.redirect as string) || "/"))
         .catch(() => refreshCaptcha());
     }
-
     refreshCaptcha();
 
     return {

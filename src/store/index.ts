@@ -1,20 +1,14 @@
 import { computed } from "vue";
-import { createStore, Store } from "vuex";
-import app, { AppState } from "./modules/app";
-import menu, { MenuState } from "./modules/menu";
-import tabs, { TabsState } from "./modules/tabs";
-import user, { UserState } from "./modules/user";
+import { createStore, ModuleTree } from "vuex";
+import { Store, RootState } from "./types";
 
-export interface GlobalState {
-  app: AppState;
-  menu: MenuState;
-  tabs: TabsState;
-  user: UserState;
-}
-
-const store: Store<GlobalState> = createStore({
-  modules: { app, menu, tabs, user }
+const files = require.context("./modules", false, /\.ts$/);
+const modules: ModuleTree<RootState> = {};
+files.keys().forEach((key) => {
+  modules[key.replace(/(\.\/|\.ts)/g, "")] = files(key).default;
 });
+
+const store: Store = createStore<RootState>({ modules });
 
 export const appState = computed(() => store.state.app).value;
 export const menuState = computed(() => store.state.menu).value;

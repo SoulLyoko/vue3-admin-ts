@@ -1,37 +1,40 @@
-import { userLogin } from "@/api/sys/account";
+import { ActionContext } from "vuex";
+import { LoginModel, userLogin } from "@/api/sys/account";
+import { UserModel } from "@/api/sys/user";
 import { cookie, storage } from "@/utils/cache";
-import { Module } from "vuex";
-import { GlobalState } from "..";
 
-export interface UserState {
-  userInfo: any;
-}
+const state = {
+  userInfo: (storage.get("userInfo") || {}) as UserModel //用户信息
+};
 
-const user: Module<UserState, GlobalState> = {
-  state() {
-    return {
-      userInfo: storage.get("userInfo") || {} //用户信息
-    };
+export type UserState = typeof state;
+
+const actions = {
+  /** 用户登录 */
+  async login({ commit }: ActionContext<UserState, any>, payload: LoginModel) {
+    const res = await userLogin(payload);
+    cookie.set("token", res.token);
+    commit("SET_USER_INFO", res.userInfo);
   },
-  actions: {
-    /** 用户登录 */
-    async login({ commit }, data) {
-      const res = await userLogin(data);
-      cookie.set("token", res.token);
-      commit("SET_USER_INFO", res.userInfo);
-    },
-    /** 用户注销 */
-    logout() {
-      cookie.remove("token");
-      storage.clear();
-      location.reload();
-    }
-  },
-  mutations: {
-    SET_USER_INFO(state, data) {
-      state.userInfo = data;
-      storage.set("userInfo", data);
-    }
+  /** 用户注销 */
+  logout() {
+    cookie.remove("token");
+    storage.clear();
+    location.reload();
   }
 };
+
+const mutations = {
+  SET_USER_INFO(state: UserState, payload: UserState["userInfo"]) {
+    state.userInfo = payload;
+    storage.set("userInfo", payload);
+  }
+};
+
+const user = {
+  state,
+  actions,
+  mutations
+};
+
 export default user;

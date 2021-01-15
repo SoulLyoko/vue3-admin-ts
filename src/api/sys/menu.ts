@@ -22,7 +22,10 @@ export interface MenuModel {
   children?: MenuModel[];
 }
 
-export type MenuRouteRecord = RouteRecordRaw & { meta: MenuModel };
+export type MenuRouteRecord = Omit<RouteRecordRaw, "meta" | "children"> & {
+  meta: MenuModel;
+  children: MenuRouteRecord[];
+};
 
 // 获取导航菜单
 export function getMenu(): Promise<MenuModel[]> {

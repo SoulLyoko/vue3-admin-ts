@@ -36,7 +36,7 @@
       <li class="el-dropdown-menu__item" @click="handleCommand('closeOtherTabs', targetPath)">
         <i class="el-icon-close"></i>关闭其他
       </li>
-      <li class="el-dropdown-menu__item" @click="handleCommand('closeAllTabs')">
+      <li class="el-dropdown-menu__item" @click="handleCommand('closeAllTabs', '')">
         <i class="el-icon-error"></i>关闭全部
       </li>
     </ul>
@@ -48,6 +48,7 @@ import { defineComponent, ref, computed } from "vue";
 import store, { tabsState } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { ElTabPane } from "element-plus";
+import { DispatchKeys } from "@/store/types";
 
 export default defineComponent({
   name: "main-tabs",
@@ -68,7 +69,7 @@ export default defineComponent({
     function tabRemove(name: string) {
       store.dispatch("closeTab", name);
     }
-    function handleCommand(command: string, targetPath?: string) {
+    function handleCommand(command: DispatchKeys, targetPath?: string) {
       store.dispatch(command, targetPath);
     }
     function mousedownListener(event: MouseEvent) {
