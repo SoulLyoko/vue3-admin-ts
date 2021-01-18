@@ -22,10 +22,12 @@
       <el-main class="layout-main">
         <main-tabs></main-tabs>
         <div class="main-view">
-          <router-view></router-view>
-          <!-- <router-view>
-            <keep-alive :include="keepAliveList"></keep-alive>
-          </router-view> -->
+          <router-view #default="{Component,route}">
+            <keep-alive v-if="route.meta.cache">
+              <component :is="Component"></component>
+            </keep-alive>
+            <component :is="Component" v-else></component>
+          </router-view>
         </div>
       </el-main>
     </el-container>
@@ -68,7 +70,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-// @import "@/assets/style/theme/base.scss";
-</style>
