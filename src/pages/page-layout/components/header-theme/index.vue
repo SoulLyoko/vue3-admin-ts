@@ -16,13 +16,13 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from "vue";
-import store, { appState } from "@/store";
+import store from "@/store";
 
 export default defineComponent({
   name: "header-theme",
   setup() {
     const dialogVisible = ref(false);
-    const themeName = computed(() => appState.themeName);
+    const themeName = computed(() => store.state.app.themeName);
     const themeList = [
       { name: "default", title: "默认" },
       { name: "classic", title: "经典" }

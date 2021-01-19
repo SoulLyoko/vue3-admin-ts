@@ -7,12 +7,12 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { menuState } from "@/store";
+import store from "@/store";
 
 export default defineComponent({
   name: "aside-logo",
   setup() {
-    const isCollapse = computed(() => menuState.isCollapse);
+    const isCollapse = computed(() => store.state.menu.isCollapse);
 
     return { isCollapse };
   }

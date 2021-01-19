@@ -10,7 +10,7 @@ export interface MenuModel {
   permissions?: string;
   sort?: number;
   cache?: false;
-  title?: string;
+  title: string;
   path?: string;
   component?: string;
   createTime?: string;

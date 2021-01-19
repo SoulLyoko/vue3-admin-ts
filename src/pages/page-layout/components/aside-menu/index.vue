@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { menuState } from "@/store";
+import store from "@/store";
 import menuSub from "../menu-sub/index.vue";
 import menuItem from "../menu-item/index.vue";
 
@@ -19,9 +19,9 @@ export default defineComponent({
   name: "aside-menu",
   components: { menuSub, menuItem },
   setup() {
-    const isCollapse = computed(() => menuState.isCollapse);
-    const asideMenu = computed(() => menuState.asideMenu);
-    const activeMenu = computed(() => menuState.activeMenu);
+    const isCollapse = computed(() => store.state.menu.isCollapse);
+    const asideMenu = computed(() => store.state.menu.asideMenu);
+    const activeMenu = computed(() => store.state.menu.activeMenu);
 
     return { isCollapse, asideMenu, activeMenu };
   }

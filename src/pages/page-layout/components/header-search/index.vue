@@ -33,7 +33,7 @@ import { defineComponent, ref, nextTick } from "vue";
 import { MenuRouteRecord } from "@/api/sys/menu";
 import { flatTree } from "@/utils";
 import { menuClick } from "@/utils/route";
-import { menuState } from "@/store";
+import store from "@/store";
 
 export default defineComponent({
   name: "header-search",
@@ -41,7 +41,7 @@ export default defineComponent({
     const inputVisible = ref(false);
     const searchKey = ref("");
     const inputRef = ref();
-    const routeList = flatTree<MenuRouteRecord>(menuState.headerMenu);
+    const routeList = flatTree<MenuRouteRecord>(store.state.menu.headerMenu).filter((e) => e.meta.component !== "Main");
 
     function querySearch(queryString: string, cb: Function) {
       let results = routeList;

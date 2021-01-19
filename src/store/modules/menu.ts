@@ -1,4 +1,4 @@
-import { ActionContext } from "vuex";
+import { ActionContext } from "../types";
 import { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
 import router from "@/router";
 import { getMenu, getPermissions, MenuRouteRecord } from "@/api/sys/menu";
@@ -18,7 +18,7 @@ export type MenuState = typeof state;
 
 const actions = {
   /** 获取菜单并添加到路由，获取权限数据 */
-  async getMenu({ commit, state }: ActionContext<MenuState, any>) {
+  async getMenu({ commit, state }: ActionContext<MenuState>) {
     const menuRes = await getMenu();
     const routes = generateRoutes(menuRes);
     routes.forEach((route) => {
@@ -40,7 +40,7 @@ const mutations = {
   SET_ASIDE_MENU(state: MenuState, payload: MenuState["asideMenu"]) {
     state.asideMenu = payload || state.headerMenu[0]?.children || [];
   },
-  SET_HEADER_MENU(state: MenuState, payload: []) {
+  SET_HEADER_MENU(state: MenuState, payload: MenuState["headerMenu"]) {
     state.headerMenu = payload;
   },
   CHANGE_COLLAPSE(state: MenuState) {
@@ -61,7 +61,8 @@ const mutations = {
 const menu = {
   state,
   actions,
-  mutations
+  mutations,
+  getters: {}
 };
 
 export default menu;

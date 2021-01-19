@@ -1,44 +1,36 @@
-import { Store as S, ActionContext as AC } from "vuex";
+import { Store as S, ActionContext as AC, CommitOptions, DispatchOptions } from "vuex";
+/*start*/
 import app from "./modules/app";
 import menu from "./modules/menu";
 import tabs from "./modules/tabs";
 import user from "./modules/user";
 
-export interface RootState {
+export type RootState = {
   app: typeof app.state;
   menu: typeof menu.state;
   tabs: typeof tabs.state;
   user: typeof user.state;
-}
-
-// 将 getter 函数转换成 {getterName: getterFuncsReturnType} 的对象类型
-export type ReturnGetters<T extends { [key: string]: (...args: any) => any }> = {
-  [P in keyof T]: ReturnType<T[P]>;
 };
-// 提取所有 module 的 getter 函数类型对象
-type GettersFuncs = typeof tabs.getters;
-// 将 getter 转换成对象
-export type Getters = ReturnGetters<GettersFuncs>;
+export type Mutations = typeof app.mutations & typeof menu.mutations & typeof tabs.mutations & typeof user.mutations;
+export type Actions = typeof app.actions & typeof menu.actions & typeof tabs.actions & typeof user.actions;
+export type Getters = typeof app.getters & typeof menu.getters & typeof tabs.getters & typeof user.getters;
+/*end*/
 
-// 提取 mutation 函数类型
-type CommitFuncs = typeof app.mutations & typeof menu.mutations & typeof tabs.mutations & typeof user.mutations;
-export type CommitKeys = keyof CommitFuncs;
-// 将 mutation 函数名及 payload 类型转换成 commit 函数的两个入参类型
+// 将 mutations 函数名及 payload 类型转换成 commit 函数的两个入参类型
 export interface Commit {
-  <T extends CommitKeys>(type: T, payload?: Parameters<CommitFuncs[T]>[1]): void;
+  <T extends keyof Mutations>(type: T, payload?: Parameters<Mutations[T]>[1], options?: CommitOptions): void;
 }
 
-// dispatch 处理步骤同 commit
-type DispatchFuncs = typeof app.actions & typeof menu.actions & typeof tabs.actions & typeof user.actions;
-export type DispatchKeys = keyof DispatchFuncs;
+// 将 actions 函数名及 payload 类型转换成 dispatch 函数的两个入参类型
 export interface Dispatch {
-  <T extends DispatchKeys>(type: T, payload?: Parameters<DispatchFuncs[T]>[1]): Promise<any>;
+  <T extends keyof Actions>(type: T, payload?: Parameters<Actions[T]>[1], options?: DispatchOptions): Promise<any>;
 }
 
 export interface Store extends S<RootState> {
   state: RootState;
   commit: Commit;
   dispatch: Dispatch;
+  getters: Getters;
 }
 
 export interface ActionContext<S> extends AC<S, RootState> {

@@ -45,10 +45,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
-import store, { tabsState } from "@/store";
+import store from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { ElTabPane } from "element-plus";
-import { DispatchKeys } from "@/store/types";
+import type { Actions } from "@/store/types";
 
 export default defineComponent({
   name: "main-tabs",
@@ -58,8 +58,8 @@ export default defineComponent({
     const contextmenuVisible = ref(false);
     const contextmenuStyle = ref({});
     const targetPath = ref("");
-    const openTabs = computed(() => tabsState.openTabs);
-    const activeTab = computed(() => tabsState.activeTab);
+    const openTabs = computed(() => store.state.tabs.openTabs);
+    const activeTab = computed(() => store.state.tabs.activeTab);
 
     function tabClick(tab: typeof ElTabPane) {
       const findRoute = openTabs.value.find((item) => item.name === tab.props.name) || "";
@@ -69,7 +69,7 @@ export default defineComponent({
     function tabRemove(name: string) {
       store.dispatch("closeTab", name);
     }
-    function handleCommand(command: DispatchKeys, targetPath?: string) {
+    function handleCommand(command: keyof Actions, targetPath?: string) {
       store.dispatch(command, targetPath);
     }
     function mousedownListener(event: MouseEvent) {

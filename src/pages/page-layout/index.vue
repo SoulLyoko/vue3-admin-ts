@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import store, { menuState } from "@/store";
+import store from "@/store";
 import asideLogo from "./components/aside-logo/index.vue";
 import asideMenu from "./components/aside-menu/index.vue";
 import headerMenu from "./components/header-menu/index.vue";
@@ -59,12 +59,11 @@ export default defineComponent({
     mainTabs
   },
   setup() {
-    const isCollapse = computed(() => menuState.isCollapse);
-    const keepAliveList = computed(() => store.getters.keepAliveList);
+    const isCollapse = computed(() => store.state.menu.isCollapse);
     const changeCollapse = () => store.commit("CHANGE_COLLAPSE");
+
     return {
       isCollapse,
-      keepAliveList,
       changeCollapse
     };
   }

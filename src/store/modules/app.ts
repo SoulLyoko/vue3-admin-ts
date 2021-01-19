@@ -3,7 +3,7 @@ import screenfull from "screenfull";
 import { ActionContext } from "../types";
 
 const state = {
-  themeName: storage.get("themeName") || "default", //主题名称
+  themeName: (storage.get("themeName") || "default") as string, //主题名称
   isFullscreen: false //是否全屏
 };
 
@@ -38,7 +38,8 @@ const mutations = {
 const app = {
   state,
   actions,
-  mutations
+  mutations,
+  getters: {}
 };
 
 export default app;

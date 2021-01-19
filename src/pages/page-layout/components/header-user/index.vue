@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, nextTick } from "vue";
-import store, { userState } from "@/store";
+import store from "@/store";
 import { resetPassword } from "@/api/sys/account";
 import { ElMessageBox, ElMessage } from "element-plus";
 
@@ -49,7 +49,7 @@ export default defineComponent({
   setup() {
     const formRef = ref();
     const dialogVisible = ref(false);
-    const userInfo = computed(() => userState.userInfo);
+    const userInfo = computed(() => store.state.user.userInfo);
     const formData = ref({
       newPassword: "",
       oldPassword: "",

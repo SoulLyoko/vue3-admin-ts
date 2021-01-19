@@ -9,7 +9,7 @@ import router from "@/router";
  * @param {Object} parent  上级
  * @returns {Array} 生成的路由数据
  */
-export function generateRoutes(menuArr: MenuModel[], parent: MenuModel = { path: "" }): MenuRouteRecord[] {
+export function generateRoutes(menuArr: MenuModel[], parent: MenuModel = { path: "", title: "" }): MenuRouteRecord[] {
   function getComponent(name: string): () => Promise<Component> {
     switch (name) {
       case "Layout":

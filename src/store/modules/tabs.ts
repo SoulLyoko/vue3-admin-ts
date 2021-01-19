@@ -1,4 +1,4 @@
-import { ActionContext } from "vuex";
+import { ActionContext } from "../types";
 import { RouteLocationNormalized } from "vue-router";
 import router from "@/router";
 import { indexPage, frameOut } from "@/router/routes";
@@ -20,12 +20,12 @@ const actions = {
    * 打开标签页
    * @param {Object} to 路由信息
    */
-  openTab({ commit, state, rootState }: ActionContext<TabsState, any>, to: RouteLocationNormalized) {
+  openTab({ commit, state, rootState }: ActionContext<TabsState>, to: RouteLocationNormalized) {
     const hasTab = state.openTabs.some((item) => item.path === to.path);
     const isFrameOut = frameOut.some((item) => item.path === to.path);
     const currentHeader = rootState.menu.headerMenu.find((menu: any) => menu.path === to.matched[0].path);
     if (!hasTab && !isFrameOut) {
-      commit("SET_TABS", [...state.openTabs, { ...to, matched: undefined }]);
+      commit("SET_TABS", [...state.openTabs, { ...to, matched: [] }]);
     }
     commit("SET_ACTIVE_TAB", to);
     commit("SET_ACTIVE_MENU", to, { root: true });
@@ -35,7 +35,7 @@ const actions = {
    * 关闭单个标签
    * @param {String} tabName tab绑定的value
    */
-  closeTab({ commit, state }: ActionContext<TabsState, any>, tabName: string) {
+  closeTab({ commit, state }: ActionContext<TabsState>, tabName: string) {
     if (tabName === state.activeTab.name) {
       const prevIndex = (state.openTabs.findIndex((tab) => tab.name === tabName) || 1) - 1;
       router.push(state.openTabs[prevIndex]);
@@ -44,7 +44,7 @@ const actions = {
     commit("SET_TABS", filterTabs);
   },
   /** 关闭所有标签 */
-  closeAllTabs({ commit }: ActionContext<TabsState, any>) {
+  closeAllTabs({ commit }: ActionContext<TabsState>) {
     commit("SET_TABS", []);
     router.push("/index");
   },
@@ -52,7 +52,7 @@ const actions = {
    * 关闭其他标签
    * @param {String} path 传值则切换到该标签
    */
-  closeOtherTabs({ commit, state }: ActionContext<TabsState, any>, path: string) {
+  closeOtherTabs({ commit, state }: ActionContext<TabsState>, path: string) {
     path = path || state.activeTab.path;
     router.push(path);
     const filterTabs = state.openTabs.filter((item) => item.path === path);
@@ -62,7 +62,7 @@ const actions = {
    * 关闭左侧标签
    * @param {String} path 传值则切换到该标签
    */
-  closeLeftTabs({ commit, state }: ActionContext<TabsState, any>, path: string) {
+  closeLeftTabs({ commit, state }: ActionContext<TabsState>, path: string) {
     path = path || state.activeTab.path;
     router.push(path);
     const findIndex = state.openTabs.findIndex((item) => item.path === path);
@@ -73,7 +73,7 @@ const actions = {
    * 关闭右侧标签
    * @param {String} path 传值则切换到该标签
    */
-  closeRightTabs({ commit, state }: ActionContext<TabsState, any>, path: string) {
+  closeRightTabs({ commit, state }: ActionContext<TabsState>, path: string) {
     path = path || state.activeTab.path;
     router.push(path);
     const findIndex = state.openTabs.findIndex((item) => item.path === path);
@@ -84,7 +84,7 @@ const actions = {
 
 const mutations = {
   SET_TABS(state: TabsState, payload: RouteLocationNormalized[]) {
-    if (payload.some((item: RouteLocationNormalized) => item.name === indexPage.name)) {
+    if (payload.some((item) => item.name === indexPage.name)) {
       state.openTabs = payload;
     } else {
       state.openTabs = [(indexPage as unknown) as RouteLocationNormalized, ...payload];
