@@ -1,4 +1,4 @@
-# vue3-ts-admin
+# vue3-admin-ts
 
 ## Project setup
 
