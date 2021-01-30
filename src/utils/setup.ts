@@ -5,7 +5,6 @@ import { App } from "vue";
 import store from "@/store";
 import router from "@/router";
 import dayjs from "dayjs";
-import * as util from "./index";
 import { storage, cookie } from "./cache";
 import components from "@/components";
 
@@ -19,7 +18,6 @@ export const setupApp = (app: App<Element>) => {
     app.component(component.name || "", component);
   });
 
-  app.config.globalProperties.$util = util;
   app.config.globalProperties.$storage = storage;
   app.config.globalProperties.$cookie = cookie;
   app.config.globalProperties.$dayjs = dayjs;

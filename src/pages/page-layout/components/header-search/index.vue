@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, ref, nextTick } from "vue";
 import { MenuRouteRecord } from "@/api/sys/menu";
-import { flatTree } from "@/utils";
+import { flatTree } from "@/utils/tree";
 import { menuClick } from "@/utils/route";
 import store from "@/store";
 
